@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getAll } from "../BooksAPI";
 import { update } from "../BooksAPI";
 import Book from "./Book";
+import { search } from "../BooksAPI";
 function Result(props){
     const [books,setBook]=useState([]);
     
@@ -18,9 +19,12 @@ function Result(props){
      
        }
        const getBooks= async (val)=>{
-        const book1=await getAll();
-        const book2=book1.filter((book)=> book.title.toLowerCase().includes(val.toLowerCase()));
-        setBook(book2);
+        const book1=await search(val);
+        
+        if(book1)
+           setBook(book1);
+        else
+          setBook([])
        }
        getBooks(props.val);
        
