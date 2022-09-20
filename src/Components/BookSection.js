@@ -5,7 +5,7 @@ import { update } from "../BooksAPI";
 function BookSection(props){
     const [books,setBook]=useState([]);
     const handleChange =async (book,value)=>{
-        if(value!=="none")
+        
             await update(book,value)
         // for(var i=0;i<books.length;i++){
         //     if(books[i].id=book.id){

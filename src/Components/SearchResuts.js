@@ -3,6 +3,7 @@ import { getAll } from "../BooksAPI";
 import { update } from "../BooksAPI";
 import Book from "./Book";
 import { search } from "../BooksAPI";
+import { get } from "../BooksAPI";
 function Result(props){
     const [books,setBook]=useState([]);
     
@@ -25,6 +26,7 @@ function Result(props){
            setBook(book1);
         else
           setBook([])
+        alert((await get(books[0])).shelf);
        }
        getBooks(props.val);
        

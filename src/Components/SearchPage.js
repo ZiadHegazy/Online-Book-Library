@@ -6,29 +6,38 @@ import Book from "./Book";
 import { update } from "../BooksAPI";
 import Result from "./SearchResuts";
 import { search } from "../BooksAPI";
+import { get } from "../BooksAPI";
 const Search=(props) =>{
   
-  const handleChange =async (book,value)=>{
+  const handleChange =async (book,value1)=>{
        
-    if(value!=="none")
-        await update(book,value)
-    // for(var i=0;i<books.length;i++){
-    //     if(books[i].id=book.id){
-    //         books[i].shelf=value;
-    //         break;
-    //     }
-    // }
+    
+      await update(book,value1)
+      changeBook(value);
+      
+
+    
+        
+    
  
    }
    const [books,setBook]=useState([])
    const [value,setValue]=useState("");
+
    const changeBook= async (val)=>{
     const booktemp=await search(val);
-    if(booktemp && Array.isArray(booktemp))
-       setBook(booktemp);
+    
+    if(booktemp && Array.isArray(booktemp)){
+      for(var i=0;i<booktemp.length;i++){
+        const shelf=(await get(booktemp[i].id)).shelf;
+        booktemp[i].shelf=shelf;
+      }
+      setBook(booktemp);
+      
+    }
+       
     else
       setBook([])
-
 
    }
    const changeSearch=(event)=>{
@@ -58,6 +67,7 @@ const Search=(props) =>{
               </div>
               <div className="search-books-results">
                 <ol className="books-grid">
+                  
                     {books.map((book)=> <Book book={book} changeState={handleChange} /> )}
                   
                 </ol>
